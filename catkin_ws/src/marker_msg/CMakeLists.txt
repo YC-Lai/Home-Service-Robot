@@ -9,7 +9,7 @@ find_package(catkin REQUIRED COMPONENTS
   std_msgs
 )
 
-include_directories(include)
+#include_directories(include)
 
 #########################
 ##       MESSAGE       ##
@@ -25,7 +25,7 @@ add_message_files(
 generate_messages(DEPENDENCIES std_msgs)
 
 catkin_package(
-  INCLUDE_DIRS include
+  #INCLUDE_DIRS include
   CATKIN_DEPENDS message_runtime std_msgs)
 
 install(DIRECTORY include/${PROJECT_NAME}/
