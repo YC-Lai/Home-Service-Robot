@@ -1,6 +1,6 @@
 #!/bin/sh
 export TURTLEBOT_GAZEBO_WORLD_FILE="$(rospack find my_robot)/worlds/UdacityOffice.world"
-export TURTLEBOT_GAZEBO_MAP_FILE="$(rospack find my_robot)/my_robot/maps/map.yaml"
+export TURTLEBOT_GAZEBO_MAP_FILE="$(rospack find my_robot)/maps/map.yaml"
 export ROBOT_INITIAL_POSE="-x -4 -y 2 -Y 0"
 
 xterm -e " source devel/setup.bash" &
