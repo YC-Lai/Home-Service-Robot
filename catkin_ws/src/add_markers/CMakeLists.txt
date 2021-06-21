@@ -8,6 +8,8 @@ add_compile_options(-std=c++11)
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
 find_package(catkin REQUIRED COMPONENTS
+  actionlib
+  move_base_msgs
   roscpp
   visualization_msgs
   marker_msg
@@ -134,7 +136,7 @@ include_directories(
 ## With catkin_make all packages are built within a single CMake context
 ## The recommended prefix ensures that target names across packages don't collide
 add_executable(add_markers src/add_markers.cpp)
-
+add_executable(marker_demo src/marker_demo.cpp)
 ## Rename C++ executable without prefix
 ## The above recommended prefix causes long target names, the following renames the
 ## target back to the shorter version for ease of user use
@@ -147,6 +149,9 @@ add_executable(add_markers src/add_markers.cpp)
 
 ## Specify libraries to link a library or executable target against
 target_link_libraries(add_markers
+  ${catkin_LIBRARIES}
+)
+target_link_libraries(marker_demo
   ${catkin_LIBRARIES}
 )
 

@@ -1,3 +1,5 @@
+#include <actionlib/client/simple_action_client.h>
+#include <move_base_msgs/MoveBaseAction.h>
 #include <ros/ros.h>
 #include <std_msgs/String.h>
 #include <visualization_msgs/Marker.h>
@@ -58,14 +60,18 @@ void add_markers::PublishMarker() {
     // publish at the pickup zone
     this->setMarkerPosition(1.5, 1);
     pub_.publish(marker);
+    ROS_INFO("marker at pick up location.");
     ros::Duration(5.0).sleep();
     this->toggleVisibility();
+    pub_.publish(marker);
+    ROS_INFO("marker transfering.");
 
     // publish at the drop off zone
     ros::Duration(5.0).sleep();
     this->setMarkerPosition(3, 2);
-    pub_.publish(marker);
     this->toggleVisibility();
+    pub_.publish(marker);    
+    ROS_INFO("marker at drop off zone");
 }
 
 void add_markers::setMarkerPosition(double x, double y) {
@@ -82,11 +88,22 @@ void add_markers::toggleVisibility() {
         marker.color.a = 1.0;
 };
 
+//Client to send navigation goals to MoveBase server
+typedef actionlib::SimpleActionClient<move_base_msgs::MoveBaseAction> MoveBaseClient;
+
 int main(int argc, char** argv) {
     ros::init(argc, argv, "add_markers");
 
     //Call add_markers constructor
     add_markers newAddMarkers;
+
+    //tell the action client that we want to spin a thread by default
+    MoveBaseClient ac("move_base", true);
+
+    // Wait 5 sec for move_base action server to come up
+    while (!ac.waitForServer(ros::Duration(5.0))) {
+        ROS_INFO("Waiting for the move_base action server to come up");
+    }
 
     newAddMarkers.PublishMarker();
 
